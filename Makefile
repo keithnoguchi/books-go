@@ -1,9 +1,18 @@
 # SPDX-License-Identifier: GPL-2.0
-.PHONY: all build clean
-all: fmt vet build test
+MODS	:= book concurrency
+.PHONY:	all build clean run
+all:	fmt vet build test
 build:
-	@mkdir -p ./bin && go build -o ./bin ./...
+	@for mod in $(MODS); do \
+		cd $${mod} && mkdir -p ./bin && go build -o ./bin ./... && cd ..; \
+	done
 clean:
-	@go clean && rm ./bin/*
+	@for mod in $(MODS); do \
+		cd $${mod} && go clean && rm -f ./bin/* && cd ..; \
+	done
+run: build
+	@for mod in $(MODS); do \
+		cd $${mod} && for cmd in ./bin/*; do $${cmd}; done && cd ..; \
+	done
 %:
-	@go $@ ./...
+	@for mod in $(MODS); do cd $${mod} && go $@ ./... && cd ..; done
