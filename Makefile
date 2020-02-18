@@ -20,7 +20,7 @@ test:
 	done
 bench:
 	@for mod in $(MODS); do \
-		cd $${mod} && go test -benchtime=5s -bench=. ./... && cd ..; \
+		cd $${mod} && go test -benchtime=5s -cpu=1 -bench=. ./... && cd ..; \
 	done
 %:
 	@for mod in $(MODS); do cd $${mod} && go $@ ./... && cd ..; done

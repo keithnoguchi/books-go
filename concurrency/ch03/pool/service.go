@@ -1,4 +1,3 @@
-// sync.Pool example, page 61
 package pool
 
 import (
