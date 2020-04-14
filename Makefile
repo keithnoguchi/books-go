@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0
 BOOKS	:= book
 BOOKS	+= concurrency
+BOOKS	+= distributed
 
 .PHONY:	all build clean run bench
 all:	fmt vet build test
