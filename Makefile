@@ -2,9 +2,17 @@
 BOOKS	:= book
 BOOKS	+= concurrency
 BOOKS	+= distributed
+PROTO	:= distributed
 
 .PHONY:	all build clean run bench
-all:	fmt vet build test
+all:	fmt vet proto build test
+proto:
+	@for book in $(PROTO); do \
+		cd $${book} && protoc ch02/api/v1/*.proto \
+			--gogo_out=Mgogoproto/gogo.proto=github.com/gogo/protobuf/proto:. \
+			--proto_path=$$(go list -f '{{ .Dir }}' -m github.com/gogo/protobuf) \
+			--proto_path=. ; \
+	done
 build:
 	@for book in $(BOOKS); do \
 		cd $${book} && mkdir -p ./bin && go build -o ./bin ./... && cd ..; \
