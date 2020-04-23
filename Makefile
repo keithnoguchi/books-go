@@ -7,14 +7,15 @@ PROTO	:= distributed
 .PHONY:	all mod proto build clean run bench
 all:	fmt vet mod proto build test
 mod:
-	@for book in $(PROTO); do $$(cd $${book} && go mod download); done
+	@for book in $(PROTO); do cd $${book} && go mod download; cd ..; done
 proto: mod
 	@go get -u github.com/gogo/protobuf/protoc-gen-gogo
 	@for book in $(PROTO); do \
-		$$(cd $${book} && protoc ch02/api/v1/*.proto \
+		cd $${book} && protoc ch02/api/v1/*.proto \
 			--gogo_out=Mgogoproto/gogo.proto=github.com/gogo/protobuf/proto:. \
 			--proto_path=$$(go list -f '{{ .Dir }}' -m github.com/gogo/protobuf) \
-			--proto_path=. ); \
+			--proto_path=. ; \
+		cd ..; \
 	done
 build:
 	@for book in $(BOOKS); do \
@@ -28,9 +29,10 @@ run: build
 	@for book in $(BOOKS); do \
 		cd $${book} && for cmd in ./bin/*; do $${cmd}; done && cd ..; \
 	done
-test:
+test: test-cover test-race
+test-%:
 	@for book in $(BOOKS); do \
-		cd $${book} && go test -cover ./...; cd ..; \
+		cd $${book} && go test -v -$* ./...; cd ..; \
 	done
 bench:
 	@for book in $(BOOKS); do \
