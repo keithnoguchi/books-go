@@ -118,7 +118,8 @@ func (l *Log) Reset() error {
 	if err != nil {
 		return err
 	}
-	*l = *new
+	l.activeSegment = new.activeSegment
+	l.segments = new.segments
 	return nil
 }
 
