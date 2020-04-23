@@ -11,10 +11,11 @@ mod:
 proto: mod
 	@go get -u github.com/gogo/protobuf/protoc-gen-gogo
 	@for book in $(PROTO); do \
-		cd $${book} && protoc ch02/api/v1/*.proto \
+		cd $${book} && for chapter in ch02 ch03; do \
+			cd $${chapter} && protoc api/v1/*.proto \
 			--gogo_out=Mgogoproto/gogo.proto=github.com/gogo/protobuf/proto:. \
 			--proto_path=$$(go list -f '{{ .Dir }}' -m github.com/gogo/protobuf) \
-			--proto_path=. ; \
+			--proto_path=. ; cd ..; done; \
 		cd ..; \
 	done
 build:
