@@ -10,10 +10,11 @@ mod:
 	@for book in $(PROTO); do cd $${book} && go mod download; cd ..; done
 proto: mod
 	@go get -u github.com/gogo/protobuf/protoc-gen-gogo
+	@go get -u google.golang.org/grpc
 	@for book in $(PROTO); do \
-		cd $${book} && for chapter in ch02 ch03; do \
+		cd $${book} && for chapter in ch02 ch03 ch04; do \
 			cd $${chapter} && protoc api/v1/*.proto \
-			--gogo_out=Mgogoproto/gogo.proto=github.com/gogo/protobuf/proto:. \
+			--gogo_out=Mgogoproto/gogo.proto=github.com/gogo/protobuf/proto,plugins=grpc:. \
 			--proto_path=$$(go list -f '{{ .Dir }}' -m github.com/gogo/protobuf) \
 			--proto_path=. ; cd ..; done; \
 		cd ..; \
