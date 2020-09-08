@@ -7,9 +7,9 @@ import (
 )
 
 func main() {
-	var peopleInHallway sync.WaitGroup
-	peopleInHallway.Add(2)
-	go live.Walk(&peopleInHallway, "Alice")
-	go live.Walk(&peopleInHallway, "Barbara")
-	peopleInHallway.Wait()
+	var people sync.WaitGroup
+	people.Add(2)
+	go live.Walk(&people, "Alice")
+	go live.Walk(&people, "Barbara")
+	people.Wait()
 }
