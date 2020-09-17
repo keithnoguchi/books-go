@@ -7,6 +7,7 @@ A [Go] play ground, just like [books-rs] but with [Go].
 - [The Go Programming Language]
 - [Concurrency in Go]
 - [Distributed Services with Go]
+- [HTTP fun with httprouter]
 
 Happy Hacking!
 
@@ -17,3 +18,4 @@ Happy Hacking!
 [the go programming language]: http://gopl.io/
 [concurrency in go]: https://www.oreilly.com/library/view/concurrency-in-go/9781491941294/
 [distributed services with go]: https://pragprog.com/book/tjgo/distributed-services-with-go
+[http fun with httprouter]: https://github.com/julienschmidt/httprouter

@@ -2,6 +2,7 @@
 BOOKS	:= book
 BOOKS	+= concurrency
 BOOKS	+= distributed
+BOOKS	+= httprouter
 PROTO	:= distributed
 
 .PHONY:	all mod proto build clean run bench
