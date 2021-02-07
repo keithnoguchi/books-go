@@ -30,7 +30,7 @@ steps:
   - name: test
     image: archlinux/base
     commands:
-      - pacman -Sy --noconfirm make libffi gcc go
+      - pacman -Sy --noconfirm make libffi gcc glibc go
       - make test
     depends_on:
       - build
