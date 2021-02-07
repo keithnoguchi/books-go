@@ -10,7 +10,7 @@ steps:
   - name: lint
     image: archlinux/base
     commands:
-      - pacman -Sy --noconfirm make libffi gcc go
+      - pacman -Sy --noconfirm make libffi gcc glibc go
       - make vet
   - name: proto
     image: archlinux/base
