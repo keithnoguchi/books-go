@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	server "book/ch01/server1"
+	server "book/ch01/server/v1"
 )
 
 const ADDR = "localhost:8000"
