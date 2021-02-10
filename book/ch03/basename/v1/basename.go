@@ -12,7 +12,7 @@ func Basename(s string) string {
 		}
 	}
 	// Preserve everything before last '.'.
-	for i := len(s) -1; i >= 0; i-- {
+	for i := len(s) - 1; i >= 0; i-- {
 		if s[i] == '.' {
 			s = s[:i]
 			break

@@ -4,24 +4,24 @@ import "testing"
 
 func TestBasename(t *testing.T) {
 	tests := []struct {
-		name string
+		name  string
 		input string
-		want string
+		want  string
 	}{
 		{
-			name: "a/b/c.go",
+			name:  "a/b/c.go",
 			input: "a/b/c.go",
-			want: "c",
+			want:  "c",
 		},
 		{
-			name: "c.d.go",
+			name:  "c.d.go",
 			input: "c.d.go",
-			want: "c.d",
+			want:  "c.d",
 		},
 		{
-			name: "abc",
+			name:  "abc",
 			input: "abc",
-			want: "abc",
+			want:  "abc",
 		},
 	}
 	for _, tc := range tests {

@@ -6,9 +6,9 @@ type Celsius float64
 type Fahrenheit float64
 
 const (
-	AbsoluteZeroC Celsius = -273.15
-	FreezingC     Celsius = 0
-	BoilingC      Celsius = 100
+	AbsoluteZeroC Celsius    = -273.15
+	FreezingC     Celsius    = 0
+	BoilingC      Celsius    = 100
 	FreezingF     Fahrenheit = 32
 	BoilingF      Fahrenheit = 212
 )
@@ -18,7 +18,7 @@ func (c Celsius) String() string {
 }
 
 func (c Celsius) Fahrenheit() Fahrenheit {
-	return Fahrenheit(c * 9 / 5 + 32)
+	return Fahrenheit(c*9/5 + 32)
 }
 
 func (f Fahrenheit) String() string {

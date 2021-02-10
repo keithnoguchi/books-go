@@ -20,4 +20,3 @@ func main() {
 			arg, popcount.PopCount(x))
 	}
 }
-
