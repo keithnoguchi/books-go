@@ -10,7 +10,7 @@ import (
 func main() {
 	var x, y []int
 	for i := 0; i < 10; i += 2 {
-		y = appends.AppendInt(x, []int{i, i+1}...)
+		y = appends.AppendInt(x, []int{i, i + 1}...)
 		fmt.Printf("%d  len=%-2d cap=%-2d\t%v\n", i, len(y), cap(y), y)
 		x = y
 	}
