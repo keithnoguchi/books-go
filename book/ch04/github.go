@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 )
 
 type Issues struct {
@@ -14,9 +15,10 @@ type Issues struct {
 }
 
 type Issue struct {
-	Number int
-	Title  string
-	User   *User
+	Number    int
+	Title     string
+	User      *User
+	CreatedAt time.Time `json:"created_at"`
 }
 
 type User struct {
