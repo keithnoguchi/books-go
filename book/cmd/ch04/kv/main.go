@@ -19,7 +19,7 @@ func main() {
 		key := kv.Add(words)
 		lines[key] = words
 	}
-	for _, words  := range lines {
+	for _, words := range lines {
 		fmt.Printf("%v: %d\n", words, kv.Count(words))
 	}
 }

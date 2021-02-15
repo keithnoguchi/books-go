@@ -12,15 +12,15 @@ func TestKVAdd(t *testing.T) {
 		{
 			name: "null strings",
 			init: NewKV(),
-			data: [][]string {
-				[]string {
+			data: [][]string{
+				[]string{
 					"",
 					"",
 					"",
 				},
 			},
 			want: KV{
-				m: map[string]int {
+				m: map[string]int{
 					`["" "" ""]`: 1,
 				},
 			},
@@ -28,20 +28,20 @@ func TestKVAdd(t *testing.T) {
 		{
 			name: "duplicate strings",
 			init: NewKV(),
-			data: [][]string {
-				[]string {
+			data: [][]string{
+				[]string{
 					"I",
 					"am",
 					"lucky",
 				},
-				[]string {
+				[]string{
 					"I",
 					"am",
 					"lucky",
 				},
 			},
 			want: KV{
-				m: map[string]int {
+				m: map[string]int{
 					`["I" "am" "lucky"]`: 2,
 				},
 			},
@@ -49,13 +49,13 @@ func TestKVAdd(t *testing.T) {
 		{
 			name: "different strings",
 			init: NewKV(),
-			data: [][]string {
-				[]string {
+			data: [][]string{
+				[]string{
 					"I",
 					"am",
 					"lucky",
 				},
-				[]string {
+				[]string{
 					"I",
 					"am",
 					"not",
@@ -63,8 +63,8 @@ func TestKVAdd(t *testing.T) {
 				},
 			},
 			want: KV{
-				m: map[string]int {
-					`["I" "am" "lucky"]`: 1,
+				m: map[string]int{
+					`["I" "am" "lucky"]`:       1,
 					`["I" "am" "not" "lucky"]`: 1,
 				},
 			},
