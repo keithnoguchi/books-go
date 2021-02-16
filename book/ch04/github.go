@@ -17,12 +17,15 @@ type Issues struct {
 type Issue struct {
 	Number    int
 	Title     string
+	State     string
 	User      *User
 	CreatedAt time.Time `json:"created_at"`
+	HTMLURL   string `json:"html_url"`
 }
 
 type User struct {
-	Login string
+	Login   string
+	HTMLURL string `json:"html_url"`
 }
 
 const issueURL = "https://api.github.com/search/issues"
