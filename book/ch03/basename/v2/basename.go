@@ -1,4 +1,3 @@
-// basename(1) in golang.
 package basename
 
 import "strings"

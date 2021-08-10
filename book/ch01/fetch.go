@@ -1,26 +1,26 @@
-// fetch URL contents
 package ch01
 
 import (
 	"fmt"
 	"io"
 	"net/http"
+	"sync"
 	"time"
 )
 
-func Fetch(url string, ch chan<- string) {
+func Fetch(wg *sync.WaitGroup, ch chan<- string, url string) {
+	defer wg.Done()
 	start := time.Now()
 	resp, err := http.Get(url)
 	if err != nil {
-		ch <- fmt.Sprint(err)
+		ch <- fmt.Sprintf("%s: %v\n", url, err)
 		return
 	}
 	defer resp.Body.Close()
 	n, err := io.Copy(io.Discard, resp.Body)
 	if err != nil {
-		ch <- fmt.Sprint(err)
+		ch <- fmt.Sprintf("%s: %v\n", url, err)
 		return
 	}
-	secs := time.Since(start).Milliseconds()
-	ch <- fmt.Sprintf("%4dms  %7dbytes  %s", secs, n, url)
+	ch <- fmt.Sprintf("%.2fs\t%d\t%s\n", time.Since(start).Seconds(), n, url)
 }

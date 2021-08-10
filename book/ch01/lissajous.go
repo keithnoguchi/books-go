@@ -40,5 +40,5 @@ func Lissajous(out io.Writer) {
 		anim.Delay = append(anim.Delay, delay)
 		anim.Image = append(anim.Image, img)
 	}
-	gif.EncodeAll(out, &anim)
+	gif.EncodeAll(out, &anim) // NOTE: ignoring encoding errors
 }

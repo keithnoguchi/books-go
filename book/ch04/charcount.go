@@ -2,41 +2,29 @@ package ch04
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"unicode"
+	"unicode/utf8"
 )
 
-type UTF8ByteSize int
-
-const (
-	Invalid UTF8ByteSize = iota
-	Single
-	Double
-	Tripple
-	Quad
-)
-
-type Counter struct {
-	in      io.Reader
-	counts  map[rune]int
-	utflen  [Quad]int
+type CharCounter struct {
+	Counts  map[rune]int
 	invalid int
+	utflen  [utf8.UTFMax + 1]int
 }
 
-func NewCounter(in io.Reader) Counter {
-	return Counter{
-		in:     in,
-		counts: map[rune]int{},
+func NewCharCounter() CharCounter {
+	return CharCounter{
+		Counts: make(map[rune]int),
 	}
 }
 
-func (c *Counter) Scan() error {
-	in := bufio.NewReader(c.in)
+func (c *CharCounter) Count(in io.Reader) error {
+	reader := bufio.NewReader(in)
 	for {
-		r, n, err := in.ReadRune()
+		r, n, err := reader.ReadRune()
 		if err == io.EOF {
-			break
+			return nil
 		}
 		if err != nil {
 			return err
@@ -45,23 +33,16 @@ func (c *Counter) Scan() error {
 			c.invalid++
 			continue
 		}
-		c.counts[r]++
+		c.Counts[r]++
 		c.utflen[n]++
 	}
 	return nil
 }
 
-func (c *Counter) Count(r rune) int {
-	return c.counts[r]
+func (c *CharCounter) UTFLen() [utf8.UTFMax + 1]int {
+	return c.utflen
 }
 
-func (c *Counter) CountByUTF8ByteSize(size UTF8ByteSize) (int, error) {
-	if size == Invalid {
-		return 0, fmt.Errorf("invalid utf8 byte size")
-	}
-	return c.utflen[size], nil
-}
-
-func (c *Counter) InvalidCount() int {
+func (c *CharCounter) InvalidCount() int {
 	return c.invalid
 }

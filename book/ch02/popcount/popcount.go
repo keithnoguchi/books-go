@@ -1,7 +1,7 @@
-// Population count module
+// popcount: check the number of set bits from the integer.
 package popcount
 
-// pc[i] is the population count of i.
+// popcount pre-calculated number of set bits for [0,256)
 var pc [256]byte
 
 func init() {
@@ -10,7 +10,7 @@ func init() {
 	}
 }
 
-func PopCount(x uint64) int {
+func Uint64(x uint64) int {
 	return int(pc[byte(x>>(0*8))] +
 		pc[byte(x>>(1*8))] +
 		pc[byte(x>>(2*8))] +
