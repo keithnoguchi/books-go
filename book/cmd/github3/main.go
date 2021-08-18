@@ -2,15 +2,19 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"html/template"
 	"log"
+	"net/http"
 	"os"
+	"strings"
 
 	"book/ch04"
 )
 
 var (
 	host = flag.String("host", "", "listening host")
+	port = flag.Int("port", 8013, "listening port")
 )
 
 var issueList = template.Must(template.New("issueList").Parse(`
@@ -40,6 +44,29 @@ func main() {
 			log.Fatal(err)
 		}
 	}
+	addr := fmt.Sprintf("%s:%d", *host, *port)
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", httpHandler)
+	log.Fatal(http.ListenAndServe(addr, mux))
+}
+
+func httpHandler(w http.ResponseWriter, req *http.Request) {
+	var terms []string
+	for key, values := range req.URL.Query() {
+		if len(values[0]) == 0 {
+			terms = append(terms, key)
+			continue
+		}
+		value := strings.Join(values, ",")
+		terms = append(terms, fmt.Sprintf("%s=%v", key, value))
+	}
+	result, err := ch04.SearchIssues(terms)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Bad Request\n"))
+		return
+	}
+	issueList.Execute(w, result)
 }
 
 func cmdHandler() error {
