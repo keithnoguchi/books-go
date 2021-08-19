@@ -9,15 +9,19 @@ import (
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Fprintln(os.Stderr, "fetch <URL>")
+		fmt.Fprintf(os.Stderr, "usage: fetch URL\n")
 		os.Exit(1)
 	}
 	resp, err := http.Get(os.Args[1])
 	if err != nil {
-		fmt.Fprintln(os.Stdout, err)
+		fmt.Fprintf(os.Stderr, "fetch: %v\n", err)
 		os.Exit(1)
 	}
-	b, err := io.ReadAll(resp.Body)
 	defer resp.Body.Close()
+	b, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "fetch: %v\n", err)
+		os.Exit(1)
+	}
 	fmt.Printf("%s", b)
 }
