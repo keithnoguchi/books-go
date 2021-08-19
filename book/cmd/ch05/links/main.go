@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-2.0
 package main
 
 import (
@@ -11,7 +12,7 @@ import (
 func main() {
 	doc, err := html.Parse(os.Stdin)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "findlink: %v\n", err)
+		fmt.Fprintf(os.Stderr, "visit: %v\n", err)
 		os.Exit(1)
 	}
 	for _, link := range ch05.Visit(nil, doc) {
