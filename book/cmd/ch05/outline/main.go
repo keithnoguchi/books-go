@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"golang.org/x/net/html"
 	"book/ch05"
+	"golang.org/x/net/html"
 )
 
 func main() {
