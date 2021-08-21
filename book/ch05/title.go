@@ -7,27 +7,38 @@ import (
 	"golang.org/x/net/html"
 )
 
-func Title(data io.Reader) (*string, error) {
-	doc, err := html.Parse(data)
+func Title(in io.Reader) (title string, err error) {
+	type bailout struct{}
+	defer func() {
+		switch p := recover(); p {
+		case nil:
+			// no panic
+		case bailout{}:
+			err = fmt.Errorf("multiple title")
+		default:
+			panic(p)
+		}
+	}()
+	doc, err := html.Parse(in)
 	if err != nil {
-		return nil, err
+		return title, err
 	}
-	var forEachNode func(*html.Node) *string
-	forEachNode = func(n *html.Node) *string {
+	var forEachNode func(*html.Node)
+	forEachNode = func(n *html.Node) {
 		if n.Type == html.ElementNode && n.Data == "title" &&
 			n.FirstChild != nil {
-			return &n.FirstChild.Data
+			if title != "" {
+				panic(bailout{})
+			}
+			title = n.FirstChild.Data
 		}
 		for c := n.FirstChild; c != nil; c = c.NextSibling {
-			if title := forEachNode(c); title != nil {
-				return title
-			}
+			forEachNode(c)
 		}
-		return nil
 	}
-	title := forEachNode(doc)
-	if title == nil {
-		return nil, fmt.Errorf("missing title")
+	forEachNode(doc)
+	if title == "" {
+		return title, fmt.Errorf("missing title")
 	}
 	return title, nil
 }
