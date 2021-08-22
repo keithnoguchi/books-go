@@ -4,14 +4,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"time"
+
+	"book/ch07"
 )
 
-var period = flag.Duration("period", 1*time.Second, "sleep period")
+var temp = ch07.CelciousFlag("temp", 20.0, "the temperature")
 
 func main() {
 	flag.Parse()
-	fmt.Printf("sleep for %s\n", *period)
-	time.Sleep(*period)
-	fmt.Println()
+	fmt.Printf("%s temperature\n", *temp)
 }
