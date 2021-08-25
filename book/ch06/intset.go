@@ -19,7 +19,7 @@ func (s *IntSet) Add(x int) {
 
 func (s *IntSet) Has(x int) bool {
 	word, bit := x/64, uint(x%64)
-	return word < len(s.words) && s.words[word] & (1 << bit) != 0
+	return word < len(s.words) && s.words[word]&(1<<bit) != 0
 }
 
 func (s *IntSet) String() string {
@@ -30,7 +30,7 @@ func (s *IntSet) String() string {
 			continue
 		}
 		for j := 0; j < 64; j++ {
-			if word & (1<<uint(j)) == 0 {
+			if word&(1<<uint(j)) == 0 {
 				continue
 			}
 			if buf.Len() > len("{") {

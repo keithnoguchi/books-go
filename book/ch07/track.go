@@ -17,18 +17,18 @@ type Track struct {
 
 type ByArtist []*Track
 
-func (b ByArtist) Len() int { return len(b) }
+func (b ByArtist) Len() int           { return len(b) }
 func (b ByArtist) Less(i, j int) bool { return b[i].Artist < b[j].Artist }
-func (b ByArtist) Swap(i, j int) { b[i], b[j] = b[j], b[i] }
+func (b ByArtist) Swap(i, j int)      { b[i], b[j] = b[j], b[i] }
 
 type ByCustom struct {
 	Tracks   []*Track
 	LessFunc func(i, j *Track) bool
 }
 
-func (b ByCustom) Len() int { return len(b.Tracks) }
+func (b ByCustom) Len() int           { return len(b.Tracks) }
 func (b ByCustom) Less(i, j int) bool { return b.LessFunc(b.Tracks[i], b.Tracks[j]) }
-func (b ByCustom) Swap(i, j int) { b.Tracks[i], b.Tracks[j] = b.Tracks[j], b.Tracks[i] }
+func (b ByCustom) Swap(i, j int)      { b.Tracks[i], b.Tracks[j] = b.Tracks[j], b.Tracks[i] }
 
 func PrintTracks(out io.Writer, tracks []*Track) {
 	const format = "%v\t%v\t%v\t%v\t%v\t\n"

@@ -8,7 +8,7 @@ import (
 	"book/ch07"
 )
 
-var tracks = []*ch07.Track {
+var tracks = []*ch07.Track{
 	{"Go", "Moby", "Moby", 1992, length("3m37s")},
 	{"Go", "Delilah", "From the Roots Up", 2012, length("3m38s")},
 	{"Go Ahead", "Alicia Keys", "As I Am", 2007, length("4m36s")},

@@ -8,7 +8,6 @@ import (
 
 type Celcious float64
 
-
 func (c Celcious) String() string {
 	return fmt.Sprintf("%.05fC", c)
 }
