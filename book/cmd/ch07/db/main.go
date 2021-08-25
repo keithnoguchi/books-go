@@ -22,8 +22,23 @@ func main() {
 type database map[string]dollar
 
 func (db database) ServeHTTP(w http.ResponseWriter, req *http.Request) {
-	for item, price := range db {
+	switch req.URL.Path {
+	case "/", "/list":
+		for item, price := range db {
+			fmt.Fprintf(w, "%s: %s\n", item, price)
+		}
+	case "/price":
+		item := req.URL.Query().Get("item")
+		price, ok := db[item]
+		if !ok {
+			w.WriteHeader(http.StatusNotFound)
+			fmt.Fprintf(w, "item not found: %q\n", item)
+			return
+		}
 		fmt.Fprintf(w, "%s: %s\n", item, price)
+	default:
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintf(w, "path not found: %s\n", req.URL.Path)
 	}
 }
 
