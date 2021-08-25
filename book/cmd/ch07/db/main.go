@@ -13,10 +13,16 @@ var addr = flag.String("addr", ":8080", "listening address")
 func main() {
 	flag.Parse()
 	db := database{
-		"shoes":    9.44,
-		"t-shirts": 15.99,
+		"shoes": 12.5,
+		"socks": 8.99,
 	}
 	log.Fatal(http.ListenAndServe(*addr, db))
+}
+
+type dollar float32
+
+func (d dollar) String() string {
+	return fmt.Sprintf("$%.02f", d)
 }
 
 type database map[string]dollar
@@ -24,26 +30,32 @@ type database map[string]dollar
 func (db database) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	switch req.URL.Path {
 	case "/", "/list":
-		for item, price := range db {
-			fmt.Fprintf(w, "%s: %s\n", item, price)
-		}
+		db.list(w, req)
 	case "/price":
-		item := req.URL.Query().Get("item")
-		price, ok := db[item]
-		if !ok {
-			w.WriteHeader(http.StatusNotFound)
-			fmt.Fprintf(w, "item not found: %q\n", item)
-			return
-		}
-		fmt.Fprintf(w, "%s: %s\n", item, price)
+		db.price(w, req)
 	default:
-		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprintf(w, "path not found: %s\n", req.URL.Path)
+		db.handle404(w, req)
 	}
 }
 
-type dollar float32
+func (db database) list(w http.ResponseWriter, req *http.Request) {
+	for item, price := range db {
+		fmt.Fprintf(w, "%s: %s\n", item, price)
+	}
+}
 
-func (d dollar) String() string {
-	return fmt.Sprintf("$%.02f", d)
+func (db database) price(w http.ResponseWriter, req *http.Request) {
+	item := req.URL.Query().Get("item")
+	price, ok := db[item]
+	if !ok {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintf(w, "missing item: %q\n", item)
+		return
+	}
+	fmt.Fprintf(w, "%s: %s\n", item, price)
+}
+
+func (db database) handle404(w http.ResponseWriter, req *http.Request) {
+	w.WriteHeader(http.StatusNotFound)
+	fmt.Fprintf(w, "does not exist: %s\n", req.URL.Path)
 }
